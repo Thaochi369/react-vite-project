@@ -1,8 +1,13 @@
+import './style.css';
+
 const MyComponent = () => {
-  return (
-      <div>
+    return (
+        <>
+        <div>
         eric & hoidanit
-      </div>
+        </div>
+        <div className='child' style={{borderRadius: "10px"}}>child</div>
+      </>
   );
 }
 
