@@ -1,6 +1,9 @@
 import './todo.css'
 
-const TodoNew = () => {
+const TodoNew = (props) => {
+
+    const { addNewTodo } = props;
+    addNewTodo("name");
     return (
         <>
         <div className='todo-new'>
