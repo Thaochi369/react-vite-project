@@ -1,8 +1,13 @@
+import UserForm from "../components/user/user.form";
+import UserTable from "../components/user/usertable";
 
 
 const UsersPage = () => {
     return (
-        <div>users page</div>
+        <div>
+                <UserForm/>
+                <UserTable/>
+        </div>
     )
 }
 
