@@ -1,4 +1,4 @@
-import { Button, Input, notification } from "antd";
+import { Button, Input, notification, Modal } from "antd";
 import { useState } from "react";
 import { createUserAPI } from "../../services/api.service";
 
@@ -12,14 +12,16 @@ const UserForm = () => {
 
     const [phone, setPhoneNumber] = useState("")
 
-    const handleClickBtn = async () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleSubmitBtn = async () => {
         const res = await createUserAPI(fullName, email, password, phone);
         if (res.data) {
             notification.success({
                 message: "Create user",
                 description: "Tạo mới thành công"
             })
+            setIsModalOpen(false)
         } else {
             notification.error({
                 message: "Error create user",
@@ -28,18 +30,31 @@ const UserForm = () => {
         }
     }
     return (
-        <div className="user-form">
-            <div>
-               
+        <div className="user-form" style={{margin: "20px 20px"}}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <h3>Table Users</h3>
+                        <Button
+                            onClick={() => setIsModalOpen(true)}
+                            type="primary" style={{ marginTop: 10 }}>Create User</Button>
+            </div>
+
+            <Modal
+                title="Create User"
+                open={isModalOpen}
+                onOk={() => handleSubmitBtn()}
+                onCancel={() => setIsModalOpen(false)}
+                maskClosable={false}
+                okText={"CREATE"}
+            >
                 <div>
-                    <div>
+                    <div style={{display:"flex", gap:"15px", flexDirection: "column"}}>
                         <span>FullName</span>
                         <Input
                             value={fullName}
                             onChange={(event) => { setFullName( event.target.value)}}/>
                     </div>
                     <div>
-                        <span>Email</span>
+                         <span>Email</span>
                         <Input
                             value={email}
                             onChange={(event) => {setEmail(event.target.value)}}/>
@@ -47,8 +62,8 @@ const UserForm = () => {
                     <div>
                         <span>Password</span>
                         <Input.Password
-                            value={password}
-                            onChange={(event) => { setPastWord(event.target.value)}}  
+                           value={password}
+                           onChange={(event) => { setPastWord(event.target.value)}}  
                         />
                     </div>
                     <div>
@@ -56,18 +71,11 @@ const UserForm = () => {
                         <Input
                             value={phone}
                             onChange={(event) => { setPhoneNumber(event.target.value)}}
-                        
+                    
                         />
                     </div>
-
-                    <div>
-                        <Button
-                            onClick={() => {handleClickBtn()}}
-                            type="primary" style={{ marginTop: 10 }}>Create User</Button>
-                    </div>
-                 </div>
-                
-            </div>
+                </div>                        
+            </Modal>
         </div>
     )
 }
